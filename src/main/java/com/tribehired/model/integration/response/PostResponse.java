@@ -3,10 +3,9 @@ package com.tribehired.model.integration.response;
 import lombok.Data;
 
 @Data
-public class CommentsResponse {
-    private String postId;
+public class PostResponse {
+    private String userId;
     private String id;
-    private String name;
-    private String email;
+    private String title;
     private String body;
 }

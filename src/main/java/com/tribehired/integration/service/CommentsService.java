@@ -1,6 +1,6 @@
 package com.tribehired.integration.service;
 
-import com.tribehired.model.integration.response.CommentsResponse;
+import com.tribehired.model.integration.response.CommentResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,19 +24,19 @@ public class CommentsService {
         this.restTemplate = restTemplate;
     }
 
-    public CommentsResponse[] getAllComments() {
-        CommentsResponse[] commentsResponse = null;
+    public CommentResponse[] getAllComments() {
+        CommentResponse[] commentResponse = null;
         try {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setAccept(Collections.singletonList(MediaType.ALL));
             HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
-            ResponseEntity<CommentsResponse[]> responseEntity = restTemplate.exchange(commentsUrl, HttpMethod.GET, httpEntity, CommentsResponse[].class);
+            ResponseEntity<CommentResponse[]> responseEntity = restTemplate.exchange(commentsUrl, HttpMethod.GET, httpEntity, CommentResponse[].class);
 
-            commentsResponse = responseEntity.getBody();
+            commentResponse = responseEntity.getBody();
         } catch (Exception e) {
             log.error("GetAllComments - ", e);
         }
 
-        return commentsResponse;
+        return commentResponse;
     }
 }

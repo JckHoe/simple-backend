@@ -1,6 +1,6 @@
 package com.tribehired.integration.service;
 
-import com.tribehired.model.integration.response.SinglePostResponse;
+import com.tribehired.model.integration.response.PostResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,23 +26,23 @@ public class SinglePostService {
         this.restTemplate = restTemplate;
     }
 
-    public SinglePostResponse getSinglePost(String postId){
-        SinglePostResponse singlePostResponse = null;
+    public PostResponse getSinglePost(String postId){
+        PostResponse postResponse = null;
         try {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setAccept(Collections.singletonList(MediaType.ALL));
             HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
-            ResponseEntity<SinglePostResponse> responseEntity = restTemplate.exchange(
+            ResponseEntity<PostResponse> responseEntity = restTemplate.exchange(
                     singlePostUrl.replace(pathParam, postId),
                     HttpMethod.GET,
                     httpEntity,
-                    SinglePostResponse.class
+                    PostResponse.class
             );
 
-            singlePostResponse = responseEntity.getBody();
+            postResponse = responseEntity.getBody();
         } catch (Exception e){
             log.error("GetSinglePost - ", e);
         }
-        return singlePostResponse;
+        return postResponse;
     }
 }
