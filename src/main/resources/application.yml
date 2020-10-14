@@ -2,3 +2,15 @@ server:
   servlet:
     context-path: /api
   port: 8080
+
+placeholder:
+  path-param:
+    single-post: \{post_id\}
+
+integration:
+  comments:
+    url: https://jsonplaceholder.typicode.com/comments
+  post:
+    url: https://jsonplaceholder.typicode.com/posts/
+  single-post:
+    url: ${integration.post.url}${placeholder.path-param.single-post}
