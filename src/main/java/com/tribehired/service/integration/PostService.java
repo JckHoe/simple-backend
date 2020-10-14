@@ -1,4 +1,4 @@
-package com.tribehired.integration.service;
+package com.tribehired.service.integration;
 
 import com.tribehired.model.integration.response.PostResponse;
 import lombok.extern.slf4j.Slf4j;
