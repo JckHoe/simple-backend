@@ -24,6 +24,7 @@ public class SimpleController extends BaseController {
     @GetMapping(value = API_PATH_GET_TOP_POST, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<TopPostResponse> getTopPost() {
         TopPostResponse response = new TopPostResponse();
+        simpleService.getTopPost(response);
         return new ResponseEntity<>(response, OK);
     }
 
