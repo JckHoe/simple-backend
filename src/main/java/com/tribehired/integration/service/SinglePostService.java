@@ -26,7 +26,8 @@ public class SinglePostService {
         this.restTemplate = restTemplate;
     }
 
-    public void getSinglePost(String postId){
+    public SinglePostResponse getSinglePost(String postId){
+        SinglePostResponse singlePostResponse = null;
         try {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setAccept(Collections.singletonList(MediaType.ALL));
@@ -38,9 +39,10 @@ public class SinglePostService {
                     SinglePostResponse.class
             );
 
-            System.out.println(responseEntity.getBody());
+            singlePostResponse = responseEntity.getBody();
         } catch (Exception e){
             log.error("GetSinglePost - ", e);
         }
+        return singlePostResponse;
     }
 }
