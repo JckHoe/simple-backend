@@ -14,3 +14,5 @@ integration:
     url: https://jsonplaceholder.typicode.com/posts/
   single-post:
     url: ${integration.post.url}${placeholder.path-param.single-post}
+
+api-version: v1
