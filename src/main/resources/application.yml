@@ -10,6 +10,7 @@ placeholder:
 integration:
   comments:
     url: https://jsonplaceholder.typicode.com/comments
+  post:
+    url: https://jsonplaceholder.typicode.com/posts/
   single-post:
-    path: https://jsonplaceholder.typicode.com/posts/
-    url: ${integration.single-post.path}${placeholder.path-param.single-post}
+    url: ${integration.post.url}${placeholder.path-param.single-post}

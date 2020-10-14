@@ -12,9 +12,12 @@ import java.util.Collections;
 
 @Slf4j
 @Service
-public class SinglePostService {
+public class PostService {
     @Value("${integration.single-post.url}")
     private String singlePostUrl;
+
+    @Value("${integration.post.url}")
+    private String allPostUrl;
 
     @Value("${placeholder.path-param.single-post}")
     private String pathParam;
@@ -22,7 +25,7 @@ public class SinglePostService {
     @Qualifier("restTemplate")
     private final RestTemplate restTemplate;
 
-    public SinglePostService(RestTemplate restTemplate) {
+    public PostService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
@@ -43,6 +46,27 @@ public class SinglePostService {
         } catch (Exception e){
             log.error("GetSinglePost - ", e);
         }
+        return postResponse;
+    }
+
+    public PostResponse[] getAllPost(){
+        PostResponse[] postResponse = null;
+        try {
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setAccept(Collections.singletonList(MediaType.ALL));
+            HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
+            ResponseEntity<PostResponse[]> responseEntity = restTemplate.exchange(
+                    allPostUrl,
+                    HttpMethod.GET,
+                    httpEntity,
+                    PostResponse[].class
+            );
+
+            postResponse = responseEntity.getBody();
+        } catch (Exception e){
+            log.error("GetSinglePost - ", e);
+        }
+
         return postResponse;
     }
 }
