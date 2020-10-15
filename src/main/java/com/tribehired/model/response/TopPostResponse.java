@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TopPostResponse extends BasePaginationResponse {
+public class TopPostResponse {
     @JsonProperty("topPostList")
     private List<PostVO> postVOList;
 }
