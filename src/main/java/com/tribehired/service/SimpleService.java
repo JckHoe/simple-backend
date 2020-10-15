@@ -63,9 +63,10 @@ public class SimpleService {
         List<CommentVO> commentVOList = new ArrayList<>();
 
         for(CommentResponse comment: commentResponse){
-            if(StringUtils.containsAny(comment.getBody(), filterVO.getCommentKeyword())
-                    || StringUtils.containsAny(comment.getEmail(), filterVO.getEmail())
-                    || StringUtils.containsAny(comment.getName(), filterVO.getName())
+            if(StringUtils.contains(comment.getBody(), filterVO.getCommentKeyword())
+                    || StringUtils.contains(comment.getEmail(), filterVO.getEmail())
+                    || StringUtils.contains(comment.getName(), filterVO.getName())
+                    || StringUtils.equals(comment.getId(), filterVO.getId())
             ){
                 commentVOList.add(CommentVO.builder()
                         .postId(comment.getPostId())

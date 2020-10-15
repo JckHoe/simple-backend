@@ -35,12 +35,14 @@ public class SimpleController extends BaseController {
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "email", required = false) String email,
             @RequestParam(value = "comment", required = false) String comment,
+            @RequestParam(value = "id", required = false) String id,
             @RequestParam(value = "size", required = false) String pageSize
     ) {
         FilterVO filterVO = FilterVO.builder()
                 .name(name)
                 .email(email)
                 .commentKeyword(comment)
+                .id(id)
                 .pageSize(
                         StringUtils.isNumeric(pageSize) && Integer.parseInt(pageSize) <= MAX_PAGE_SIZE
                                 ? Integer.parseInt(pageSize)
