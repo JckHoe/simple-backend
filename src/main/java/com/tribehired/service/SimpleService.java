@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -26,7 +25,7 @@ public class SimpleService {
         PostResponse[] postResponse = postService.getAllPost();
         CommentResponse[] commentResponse = commentsService.getAllComments();
         if(postResponse!= null && commentResponse != null){
-            SimplePostVO[] simplePostArray = convertToSimplePostArray(postResponse);
+            SimplePostVO[] simplePostArray = convertToSimplePostArrayForSorting(postResponse);
 
             for (SimplePostVO simplePostVO : simplePostArray) {
                 for (CommentResponse comment : commentResponse) {
@@ -55,7 +54,7 @@ public class SimpleService {
         }
     }
 
-    private SimplePostVO[] convertToSimplePostArray(PostResponse[] postResponse){
+    private SimplePostVO[] convertToSimplePostArrayForSorting(PostResponse[] postResponse){
         SimplePostVO[] simplePostArray = new SimplePostVO[postResponse.length];
 
         for(int i=0;i<postResponse.length;i++){
