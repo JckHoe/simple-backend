@@ -2,13 +2,17 @@ package com.tribehired.service;
 
 import com.tribehired.model.integration.response.CommentResponse;
 import com.tribehired.model.integration.response.PostResponse;
+import com.tribehired.model.response.FilteredCommentListResponse;
 import com.tribehired.model.response.TopPostResponse;
+import com.tribehired.model.response.vo.CommentVO;
+import com.tribehired.model.response.vo.FilterVO;
 import com.tribehired.model.response.vo.PostVO;
 import com.tribehired.model.vo.SimplePostVO;
 import com.tribehired.service.integration.CommentsService;
 import com.tribehired.service.integration.PostService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -52,6 +56,33 @@ public class SimpleService {
             }
             response.setPostVOList(postVOList);
         }
+    }
+
+    public void getAllFilteredComment(FilteredCommentListResponse response, FilterVO filterVO){
+        CommentResponse[] commentResponse = commentsService.getAllComments();
+        List<CommentVO> commentVOList = new ArrayList<>();
+
+        for(CommentResponse comment: commentResponse){
+            if(StringUtils.containsAny(comment.getBody(), filterVO.getCommentKeyword())
+                    || StringUtils.containsAny(comment.getEmail(), filterVO.getEmail())
+                    || StringUtils.containsAny(comment.getName(), filterVO.getName())
+            ){
+                commentVOList.add(CommentVO.builder()
+                        .postId(comment.getPostId())
+                        .body(comment.getBody())
+                        .email(comment.getEmail())
+                        .name(comment.getName())
+                        .build()
+                );
+            }
+
+            // Scale max response size
+            if(commentVOList.size() > filterVO.getPageSize()){
+                break;
+            }
+        }
+
+        response.setFilteredCommentList(commentVOList);
     }
 
     private SimplePostVO[] convertToSimplePostArrayForSorting(PostResponse[] postResponse){

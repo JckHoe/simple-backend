@@ -1,18 +1,20 @@
 package com.tribehired.controller;
 
+import com.tribehired.constant.CommonConstant;
 import com.tribehired.model.response.FilteredCommentListResponse;
 import com.tribehired.model.response.TopPostResponse;
-import com.tribehired.model.vo.SimplePostVO;
+import com.tribehired.model.response.vo.FilterVO;
 import com.tribehired.service.SimpleService;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Arrays;
 
 import static com.tribehired.constant.ApiConstant.API_PATH_GET_FILTERED_COMMENT_LIST;
 import static com.tribehired.constant.ApiConstant.API_PATH_GET_TOP_POST;
+import static com.tribehired.constant.CommonConstant.MAX_PAGE_SIZE;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -29,8 +31,24 @@ public class SimpleController extends BaseController {
     }
 
     @GetMapping(value = API_PATH_GET_FILTERED_COMMENT_LIST, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<FilteredCommentListResponse> getFilteredCommentList() {
+    public ResponseEntity<FilteredCommentListResponse> getFilteredCommentList(
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "comment", required = false) String comment,
+            @RequestParam(value = "size", required = false) String pageSize
+    ) {
+        FilterVO filterVO = FilterVO.builder()
+                .name(name)
+                .email(email)
+                .commentKeyword(comment)
+                .pageSize(
+                        StringUtils.isNumeric(pageSize) && Integer.parseInt(pageSize) <= MAX_PAGE_SIZE
+                                ? Integer.parseInt(pageSize)
+                                : MAX_PAGE_SIZE
+                )
+                .build();
         FilteredCommentListResponse response = new FilteredCommentListResponse();
+        simpleService.getAllFilteredComment(response, filterVO);
         return new ResponseEntity<>(response, OK);
     }
 }

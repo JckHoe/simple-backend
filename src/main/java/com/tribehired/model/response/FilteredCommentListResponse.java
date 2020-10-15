@@ -10,6 +10,6 @@ import java.util.List;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FilteredCommentListResponse extends BasePaginationResponse {
+public class FilteredCommentListResponse {
     private List<CommentVO> filteredCommentList;
 }
