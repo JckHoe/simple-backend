@@ -11,4 +11,5 @@ public class FilterVO {
     private String commentKeyword;
     private String id;
     private int pageSize;
+    private int pageNo;
 }

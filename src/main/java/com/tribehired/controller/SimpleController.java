@@ -1,6 +1,5 @@
 package com.tribehired.controller;
 
-import com.tribehired.constant.CommonConstant;
 import com.tribehired.model.response.FilteredCommentListResponse;
 import com.tribehired.model.response.TopPostResponse;
 import com.tribehired.model.response.vo.FilterVO;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.tribehired.constant.ApiConstant.API_PATH_GET_FILTERED_COMMENT_LIST;
 import static com.tribehired.constant.ApiConstant.API_PATH_GET_TOP_POST;
-import static com.tribehired.constant.CommonConstant.MAX_PAGE_SIZE;
+import static com.tribehired.constant.CommonConstant.DEFAULT_PAGE_SIZE;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -36,7 +35,8 @@ public class SimpleController extends BaseController {
             @RequestParam(value = "email", required = false) String email,
             @RequestParam(value = "comment", required = false) String comment,
             @RequestParam(value = "id", required = false) String id,
-            @RequestParam(value = "size", required = false) String pageSize
+            @RequestParam(value = "size", required = false) String pageSize,
+            @RequestParam(value = "pageNo", required = false) String pageNo
     ) {
         FilterVO filterVO = FilterVO.builder()
                 .name(name)
@@ -44,9 +44,14 @@ public class SimpleController extends BaseController {
                 .commentKeyword(comment)
                 .id(id)
                 .pageSize(
-                        StringUtils.isNumeric(pageSize) && Integer.parseInt(pageSize) <= MAX_PAGE_SIZE
+                        StringUtils.isNumeric(pageSize)
                                 ? Integer.parseInt(pageSize)
-                                : MAX_PAGE_SIZE
+                                : DEFAULT_PAGE_SIZE
+                )
+                .pageNo(
+                        StringUtils.isNumeric(pageNo)
+                                ? Integer.parseInt(pageNo)
+                                : 1
                 )
                 .build();
         FilteredCommentListResponse response = new FilteredCommentListResponse();
