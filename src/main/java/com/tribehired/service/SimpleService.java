@@ -68,6 +68,7 @@ public class SimpleService {
                     || StringUtils.contains(comment.getEmail(), filterVO.getEmail())
                     || StringUtils.contains(comment.getName(), filterVO.getName())
                     || StringUtils.equals(comment.getId(), filterVO.getId())
+                    || (StringUtils.isEmpty(filterVO.getName()) && StringUtils.isEmpty(filterVO.getEmail()) && StringUtils.isEmpty(filterVO.getCommentKeyword()))
             ) {
                 commentVOList.add(CommentVO.builder()
                         .postId(comment.getPostId())
