@@ -7,5 +7,5 @@ Using Java SpringBoot
 Assume project is named 'Simple'
 
 ## Future enhancements
--Junit test
--Caching
+1. Junit test   
+2. Cache Handling (cache response - performance boost)  
