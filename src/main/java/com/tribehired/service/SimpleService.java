@@ -12,6 +12,7 @@ import com.tribehired.service.integration.CommentsService;
 import com.tribehired.service.integration.PostService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -62,13 +63,21 @@ public class SimpleService {
     public void getAllFilteredComment(FilteredCommentListResponse response, FilterVO filterVO) {
         CommentResponse[] commentResponse = commentsService.getAllComments();
         List<CommentVO> commentVOList = new ArrayList<>();
+        String[] stringArray = new String[]{"2", "1", "8"};
 
         for (CommentResponse comment : commentResponse) {
-            if (StringUtils.contains(comment.getBody(), filterVO.getCommentKeyword())
-                    || StringUtils.contains(comment.getEmail(), filterVO.getEmail())
-                    || StringUtils.contains(comment.getName(), filterVO.getName())
-                    || StringUtils.equals(comment.getId(), filterVO.getId())
-                    || (StringUtils.isEmpty(filterVO.getName()) && StringUtils.isEmpty(filterVO.getEmail()) && StringUtils.isEmpty(filterVO.getCommentKeyword()))
+//            if (StringUtils.contains(comment.getBody(), filterVO.getCommentKeyword())
+//                    || StringUtils.contains(comment.getEmail(), filterVO.getEmail())
+//                    || StringUtils.contains(comment.getName(), filterVO.getName())
+//                    || StringUtils.equals(comment.getId(), filterVO.getId())
+//                    || (StringUtils.isEmpty(filterVO.getName()) && StringUtils.isEmpty(filterVO.getEmail()) && StringUtils.isEmpty(filterVO.getCommentKeyword()))
+//            ) {
+            if (((StringUtils.contains(comment.getBody(), filterVO.getCommentKeyword()) || StringUtils.isEmpty(filterVO.getCommentKeyword()))
+                    && (StringUtils.contains(comment.getEmail(), filterVO.getEmail()) || StringUtils.isEmpty(filterVO.getEmail()))
+                    && (StringUtils.contains(comment.getName(), filterVO.getName()) || StringUtils.isEmpty(filterVO.getName()))
+                    && (StringUtils.equals(comment.getId(), filterVO.getId()) || StringUtils.isEmpty(filterVO.getId()))
+                    || (StringUtils.isEmpty(filterVO.getName()) && StringUtils.isEmpty(filterVO.getEmail()) && StringUtils.isEmpty(filterVO.getCommentKeyword())))
+                    && !ArrayUtils.contains(stringArray, comment.getPostId())
             ) {
                 commentVOList.add(CommentVO.builder()
                         .postId(comment.getPostId())
